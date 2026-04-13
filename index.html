@@ -395,10 +395,38 @@
 
         /* ─────────────── RESPONSIVE ─────────────── */
         @media (max-width: 768px) {
-            td.photos-td { width: 100%; height: auto; }
-            .photos-stack { flex-direction: row; min-height: 130px; height: 130px; }
-            .photo-thumb  { min-height: 0; }
-            .attr-name    { font-size: 1.1rem; }
+            .table-wrapper {
+                background: transparent;
+                border: none;
+                box-shadow: none;
+                overflow-x: visible;
+                margin-bottom: 2rem;
+            }
+            table, thead, tbody, tr, th, td {
+                display: block;
+                width: 100%;
+                min-width: 100%;
+            }
+            thead { display: none; }
+            tr {
+                margin-bottom: 2rem;
+                background: var(--card);
+                border: 1px solid var(--border);
+                border-radius: 16px;
+                overflow: hidden;
+                box-shadow: var(--shadow);
+            }
+            td {
+                padding: 1rem 1.4rem;
+                border-bottom: none;
+            }
+            td.photos-td {
+                padding: 1.4rem 1.4rem 0.5rem;
+            }
+            .photos-stack { flex-direction: row; height: 160px; min-height: 160px; }
+            .photo-thumb  { min-height: 0; width: 50%; }
+            .attr-name    { font-size: 1.3rem; }
+            .section-title { font-size: 1.6rem; }
         }
     </style>
 </head>
