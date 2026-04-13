@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rzym i Okolice – Kompletny Przewodnik</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg:      #0d1117;
+            --main:    #f8fafc;
+            --muted:   #94a3b8;
+            --accent:  #eab308;
+            --card:    rgba(30, 41, 59, 0.5);
+            --border:  rgba(255, 255, 255, 0.08);
+            --shadow:  0 4px 30px rgba(0,0,0,0.5);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg);
+            color: var(--main);
+            line-height: 1.5;
+            padding-bottom: 5rem;
+        }
+
+        /* ─────────────── LOTY ─────────────── */
+        .top-section {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 3rem 2rem 0;
+        }
+
+        .section-label {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            color: var(--muted);
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .flights-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        @media (max-width: 580px) { .flights-grid { grid-template-columns: 1fr; } }
+
+        .flight-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 1.4rem 1.6rem 1.5rem;
+        }
+
+        .flight-dir {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--muted);
+            margin-bottom: 0.6rem;
+        }
+
+        .flight-num {
+            display: inline-block;
+            background: rgba(234,179,8,0.1);
+            border: 1px solid rgba(234,179,8,0.25);
+            color: var(--accent);
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            padding: 0.25rem 0.7rem;
+            border-radius: 6px;
+            margin-bottom: 1.2rem;
+        }
+
+        .flight-route {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .f-apt { text-align: center; flex: 0 0 auto; }
+
+        .f-iata {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #fff;
+            line-height: 1;
+        }
+
+        .f-city {
+            font-size: 0.65rem;
+            color: var(--muted);
+            margin-top: 0.2rem;
+            white-space: nowrap;
+        }
+
+        .f-time {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-top: 0.35rem;
+        }
+
+        .f-date {
+            font-size: 0.65rem;
+            color: var(--muted);
+        }
+
+        .f-mid {
+            flex: 1;
+            text-align: center;
+            padding: 0 0.25rem;
+        }
+
+        .f-line {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            color: var(--muted);
+            font-size: 0.7rem;
+        }
+
+        .f-line::before,
+        .f-line::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .f-dur {
+            font-size: 0.72rem;
+            color: var(--muted);
+            margin-top: 0.3rem;
+        }
+
+        /* ─────────────── POGODA ─────────────── */
+        .weather-section {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 2rem 2rem 0;
+            text-align: center;
+        }
+
+        .weather-city {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--accent);
+            margin-bottom: 1.2rem;
+        }
+
+        .weather-strip {
+            display: flex;
+            gap: 0.6rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 0.8rem;
+        }
+
+        .w-day {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 0.9rem 1rem;
+            flex: 1 1 100px;
+            max-width: 148px;
+            min-width: 100px;
+        }
+
+        .w-date  { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.35rem; }
+        .w-icon  { font-size: 1.7rem; margin-bottom: 0.25rem; }
+        .w-desc  { font-size: 0.72rem; color: #93c5fd; margin-bottom: 0.4rem; }
+        .w-temps { display: flex; gap: 0.4rem; justify-content: center; font-size: 0.88rem; }
+        .t-hi    { color: #fbbf24; font-weight: 700; }
+        .t-lo    { color: var(--muted); }
+
+        .weather-note     { font-size: 0.78rem; color: var(--muted); margin-top: 0.5rem; }
+        .weather-warning  { font-size: 0.68rem; color: rgba(148,163,184,0.5); margin-top: 0.3rem; }
+
+        /* ─────────────── DIVIDER ─────────────── */
+        .divider {
+            max-width: 860px;
+            margin: 2.5rem auto 0;
+            border: none;
+            border-top: 1px solid var(--border);
+        }
+
+        /* ─────────────── GŁÓWNA TABELA ─────────────── */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin: 3rem 0 1.5rem;
+            border-bottom: 2px solid var(--accent);
+            display: inline-block;
+            padding-bottom: 0.4rem;
+        }
+
+        .table-wrapper {
+            background: var(--card);
+            border-radius: 18px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            overflow-x: auto;
+            margin-bottom: 3rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            min-width: 820px;
+        }
+
+        th {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent);
+            background: rgba(0,0,0,0.25);
+            padding: 1rem 1.4rem;
+        }
+
+        td {
+            padding: 1.2rem 1.4rem;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+
+        tr:hover td { background: rgba(255,255,255,0.02); }
+        tr:last-child td { border-bottom: none; }
+
+        /* ─── KOLUMNA ZDJĘĆ ─── */
+        td.photos-td {
+            width: 200px;
+            padding: 0.75rem;
+            height: 1px; /* trick: pozwala dzieciom używać height: 100% */
+        }
+
+        .photos-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            height: 100%;
+            min-height: 200px;
+        }
+
+        .photo-thumb {
+            flex: 1;
+            width: 100%;
+            min-height: 90px;
+            object-fit: cover;
+            object-position: center;
+            border-radius: 10px;
+            cursor: zoom-in;
+            border: 1px solid var(--border);
+            transition: transform 0.18s ease, opacity 0.15s;
+            background: rgba(15,20,30,0.8);
+        }
+
+        .photo-thumb:hover { transform: scale(1.025); opacity: 0.88; }
+
+        /* ─── KOLUMNA ATRAKCJI ─── */
+        .attr-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            color: #fff;
+            margin-bottom: 0.2rem;
+            line-height: 1.3;
+        }
+
+        .attr-loc {
+            font-size: 0.82rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .price {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #fff;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .ticket-type {
+            display: inline-block;
+            padding: 0.35rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            margin-bottom: 0.75rem;
+        }
+
+        .w-domu       { background: #ef4444; color: #fff; box-shadow: 0 0 10px rgba(239,68,68,0.35); }
+        .na-telefonie { background: #3b82f6; color: #fff; box-shadow: 0 0 10px rgba(59,130,246,0.35); }
+        .w-kasie      { background: #10b981; color: #fff; }
+        .darmowe      { background: rgba(34,197,94,0.1); color: #22c55e; border: 1px solid rgba(34,197,94,0.4); }
+
+        .info-text {
+            font-size: 0.88rem;
+            color: var(--muted);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .info-text strong { color: #cbd5e1; }
+
+        .btn-buy {
+            display: inline-block;
+            background: var(--accent);
+            color: #0d1117;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 0.5rem 1.1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: background 0.15s, transform 0.1s;
+        }
+
+        .btn-buy:hover { background: #ca8a04; transform: translateY(-1px); }
+
+        .btn-buy-ghost {
+            display: inline-block;
+            border: 1px solid rgba(234,179,8,0.4);
+            color: var(--accent);
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 0.45rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: background 0.15s;
+        }
+
+        .btn-buy-ghost:hover { background: rgba(234,179,8,0.08); }
+
+        /* ─── KOLUMNA INFO ─── */
+        .time-badge { font-weight: 600; color: #93c5fd; }
+
+        /* ─────────────── LIGHTBOX ─────────────── */
+        #lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.92);
+            z-index: 9999;
+            cursor: zoom-out;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        #lightbox.open { display: flex; }
+
+        #lightbox img {
+            max-width: 90vw;
+            max-height: 88vh;
+            border-radius: 12px;
+            object-fit: contain;
+            box-shadow: 0 8px 60px rgba(0,0,0,0.8);
+        }
+
+        #lightbox-close {
+            position: absolute;
+            top: 1.2rem;
+            right: 1.5rem;
+            font-size: 2rem;
+            color: rgba(255,255,255,0.7);
+            cursor: pointer;
+            line-height: 1;
+            user-select: none;
+        }
+
+        #lightbox-close:hover { color: #fff; }
+
+        /* ─────────────── RESPONSIVE ─────────────── */
+        @media (max-width: 768px) {
+            td.photos-td { width: 100%; height: auto; }
+            .photos-stack { flex-direction: row; min-height: 130px; height: 130px; }
+            .photo-thumb  { min-height: 0; }
+            .attr-name    { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ─────────── LIGHTBOX ─────────── -->
+<div id="lightbox" onclick="closeLightbox()">
+    <span id="lightbox-close">✕</span>
+    <img id="lb-img" src="" alt="">
+</div>
+
+<!-- ─────────── LOTY ─────────── -->
+<div class="top-section">
+    <div class="section-label">Twoje loty</div>
+    <div class="flights-grid">
+
+        <div class="flight-card">
+            <div class="flight-dir">✈ Wylot</div>
+            <div class="flight-num">W4 1443</div>
+            <div class="flight-route">
+                <div class="f-apt">
+                    <div class="f-iata">WAW</div>
+                    <div class="f-city">Warszawa Chopin</div>
+                    <div class="f-time">21:30</div>
+                    <div class="f-date">czw 1 maja</div>
+                </div>
+                <div class="f-mid">
+                    <div class="f-line">✈</div>
+                    <div class="f-dur">2h 25m</div>
+                </div>
+                <div class="f-apt">
+                    <div class="f-iata">FCO</div>
+                    <div class="f-city">Rzym Fiumicino</div>
+                    <div class="f-time">23:55</div>
+                    <div class="f-date">czw 1 maja</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flight-card">
+            <div class="flight-dir">✈ Powrót</div>
+            <div class="flight-num">W6 1446</div>
+            <div class="flight-route">
+                <div class="f-apt">
+                    <div class="f-iata">FCO</div>
+                    <div class="f-city">Rzym Fiumicino</div>
+                    <div class="f-time">20:35</div>
+                    <div class="f-date">pn 5 maja</div>
+                </div>
+                <div class="f-mid">
+                    <div class="f-line">✈</div>
+                    <div class="f-dur">2h 25m</div>
+                </div>
+                <div class="f-apt">
+                    <div class="f-iata">WAW</div>
+                    <div class="f-city">Warszawa Chopin</div>
+                    <div class="f-time">23:00</div>
+                    <div class="f-date">pn 5 maja</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<hr class="divider">
+
+<!-- ─────────── POGODA ─────────── -->
+<div class="weather-section">
+    <div class="section-label">Prognoza pogody</div>
+    <div class="weather-city">Rzym, Włochy &nbsp;·&nbsp; 1–5 maja 2026</div>
+    <div class="weather-strip">
+        <div class="w-day">
+            <div class="w-date">Czw 1.05</div>
+            <div class="w-icon">☀️</div>
+            <div class="w-desc">Słonecznie</div>
+            <div class="w-temps"><span class="t-hi">21°C</span><span class="t-lo">13°C</span></div>
+        </div>
+        <div class="w-day">
+            <div class="w-date">Pt 2.05</div>
+            <div class="w-icon">☀️</div>
+            <div class="w-desc">Słonecznie</div>
+            <div class="w-temps"><span class="t-hi">21°C</span><span class="t-lo">13°C</span></div>
+        </div>
+        <div class="w-day">
+            <div class="w-date">Sob 3.05</div>
+            <div class="w-icon">🌤️</div>
+            <div class="w-desc">Przeważnie słonecznie</div>
+            <div class="w-temps"><span class="t-hi">20°C</span><span class="t-lo">12°C</span></div>
+        </div>
+        <div class="w-day">
+            <div class="w-date">Nd 4.05</div>
+            <div class="w-icon">🌤️</div>
+            <div class="w-desc">Przeważnie słonecznie</div>
+            <div class="w-temps"><span class="t-hi">20°C</span><span class="t-lo">12°C</span></div>
+        </div>
+        <div class="w-day">
+            <div class="w-date">Pn 5.05</div>
+            <div class="w-icon">☀️</div>
+            <div class="w-desc">Słonecznie</div>
+            <div class="w-temps"><span class="t-hi">21°C</span><span class="t-lo">12°C</span></div>
+        </div>
+    </div>
+    <div class="weather-note">~11 godz. słońca dziennie &nbsp;·&nbsp; deszcz mało prawdopodobny &nbsp;·&nbsp; wieczory chłodne – weź bluzę</div>
+    <div class="weather-warning">⚠ Prognoza orientacyjna (~2 tyg. z góry) – sprawdź ponownie na kilka dni przed wylotem</div>
+</div>
+
+<hr class="divider">
+
+<!-- ─────────── TABELE ─────────── -->
+<div class="container">
+
+    <!-- ══ CENTRUM RZYMU ══ -->
+    <h2 class="section-title">Centrum Rzymu</h2>
+
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th style="width:200px;">Zdjęcia</th>
+                    <th style="width:34%;">Miejsce &amp; Bilety</th>
+                    <th>Co zobaczyć i kiedy?</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <!-- ── KOLOSEUM ── -->
+                <tr>
+                    <td class="photos-td">
+                        <div class="photos-stack">
+                            <img src="img/colosseum.jpg"  class="photo-thumb" alt="Koloseum"  onclick="openLightbox(this.src)">
+                            <img src="img/colosseum2.jpg" class="photo-thumb" alt="Koloseum 2" onclick="openLightbox(this.src)">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="attr-name">Koloseum, Forum Romanum i Palatyn</div>
+                        <div class="attr-loc">📍 Centralny Rzym &nbsp;·&nbsp; 1 bilet – 3 atrakcje</div>
+                        <span class="price">16–24 EUR</span>
+                        <div class="ticket-type w-domu">🚨 KUP DZIŚ W DOMU</div>
+                        <div class="info-text">
+                            Na miejscu bilety wyprzedane, kolejka do kasy to 2–3 h w słońcu. Bilet online = wejście na konkretną godzinę bez kolejki.<br><br>
+                            Podstawowy: 16 EUR &nbsp;·&nbsp; Z arenami i podziemiami: 24 EUR
+                        </div>
+                        <a href="https://parcocolosseo.it/en/visite/standard-admission/" target="_blank" class="btn-buy">🎟 Kup bilety online</a>
+                    </td>
+                    <td>
+                        <div class="info-text">
+                            Największy amfiteatr starożytności (50 000 miejsc). W pakiecie ruiny Forum Romanum i wzgórze Palatyn – cały dzień historii.<br><br>
+                            🎯 <strong>Najlepsza pora:</strong> <span class="time-badge">8:00–9:00</span> tuż po otwarciu lub <span class="time-badge">po 16:00</span>. Południe: tłok + upał.
+                        </div>
+                    </td>
+                </tr>
+
+                <!-- ── WATYKAN ── -->
+                <tr>
+                    <td class="photos-td">
+                        <div class="photos-stack">
+                            <img src="img/sistine.jpg"  class="photo-thumb" alt="Kaplica Sykstyńska" onclick="openLightbox(this.src)">
+                            <img src="img/sistine2.jpg" class="photo-thumb" alt="Muzea Watykańskie"  onclick="openLightbox(this.src)">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="attr-name">Muzea Watykańskie i Kaplica Sykstyńska</div>
+                        <div class="attr-loc">📍 Watykan</div>
+                        <span class="price">20–25 EUR</span>
+                        <div class="ticket-type w-domu">🚨 KUP DZIŚ W DOMU</div>
+                        <div class="info-text">
+                            Brak biletu = do 4 h stania wzdłuż murów. Bilet online to dosłownie pół urlopu zaoszczędzone.<br><br>
+                            <strong>Uwaga:</strong> bilet do Muzeów nie obejmuje Bazyliki – to oddzielna kolejka.
+                        </div>
+                        <a href="https://www.museivaticani.va/content/museivaticani/en/shop/acquista-biglietti.html" target="_blank" class="btn-buy">🎟 Kup bilety online</a>
+                    </td>
+                    <td>
+                        <div class="info-text">
+                            54 galerie, setki sal, freski Michała Anioła na sklepieniu Kaplicy. Plan minimum 3–4 godziny.<br><br>
+                            🎯 <strong>Najlepsza pora:</strong> <span class="time-badge">8:00 rano</span> przy otwarciu lub <span class="time-badge">po 14:00</span>, gdy wycieczki wychodzą.
+                        </div>
+                    </td>
+                </tr>
+
+                <!-- ── BORGHESE ── -->
+                <tr>
+                    <td class="photos-td">
+                        <div class="photos-stack">
+                            <img src="img/borghese.jpg"  class="photo-thumb" alt="Galeria Borghese" onclick="openLightbox(this.src)">
+                            <img src="img/borghese2.jpg" class="photo-thumb" alt="Borghese wnętrze"  onclick="openLightbox(this.src)">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="attr-name">Galeria Borghese</div>
+                        <div class="attr-loc">📍 Park Villa Borghese</div>
+                        <span class="price">15–20 EUR</span>
+                        <div class="ticket-type w-domu">🚨 KUP DZIŚ W DOMU</div>
+                        <div class="info-text">
+                            Ścisły limit 360 osób na 2-godzinny slot. Po wyprzedaniu <strong>zero</strong> biletów w kasie na bieżący dzień.
+                        </div>
+                        <a href="https://galleriaborghese.beniculturali.it/en/tickets-and-reservations/" target="_blank" class="btn-buy">🎟 Kup bilety online</a>
+                    </td>
+                    <td>
+                        <div class="info-text">
+                            Najlepszy zbiór rzeźb Berniniego na świecie (Apollo i Dafne, Dawid, Porwanie Prozerpiny) + Caravaggio. Obowiązkowe dla miłośników sztuki.<br><br>
+                            🎯 Godzina wejścia narzucona biletem – pora bez znaczenia.
+                        </div>
+                    </td>
+                </tr>
+
+                <!-- ── PANTEON ── -->
+                <tr>
+                    <td class="photos-td">
+                        <div class="photos-stack">
+                            <img src="img/pantheon.jpg"  class="photo-thumb" alt="Panteon" onclick="openLightbox(this.src)">
+                            <img src="img/pantheon2.jpg" class="photo-thumb" alt="Panteon wnętrze" onclick="openLightbox(this.src)">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="attr-name">Panteon</div>
+                        <div class="attr-loc">📍 Plac della Rotonda</div>
+                        <span class="price">5 EUR</span>
+                        <div class="ticket-type na-telefonie">👉 ONLINE W DNIU WIZYTY</div>
+                        <div class="info-text">
+                            W weekendy i święta bez rezerwacji online nie wejdziesz. Kup rano przez telefon i omiń kolejkę do kasy.
+                        </div>
+                        <a href="https://www.pantheonroma.com/home/" target="_blank" class="btn-buy">🎟 Kup bilety online</a>
+                    </td>
+                    <td>
+                        <div class="info-text">
+                            Najlepiej zachowany budynek starożytnego Rzymu (125 r. n.e.). Betonowa kopuła z 9-metrową dziurą (oculus) wpuszczającą deszcz i słońce. Grobowiec Rafaela.<br><br>
+                            🎯 <strong>Najlepsza pora:</strong> <span class="time-badge">9:00</span> przy otwarciu.
+                        </div>
+                    </td>
+                </tr>
+
+                <!-- ── ZAMEK ANIOŁA ── -->
+                <tr>
+                    <td class="photos-td">
+                        <div class="photos-stack">
+                            <img src="img/castel.jpg"  class="photo-thumb" alt="Zamek Anioła" onclick="openLightbox(this.src)">
+                            <img src="img/castel2.jpg" class="photo-thumb" alt="Zamek Anioła taras" onclick="openLightbox(this.src)">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="attr-name">Zamek św. Anioła</div>
+                        <div class="attr-loc">📍 Nad Tybrem, przy Moście Anioła</div>
+                        <span class="price">15 EUR</span>
+                        <div class="ticket-type na-telefonie">👉 ONLINE LUB KASA (max 20 min)</div>
+                        <div class="info-text">
+                            Kolejka do kasy idzie stosunkowo szybko. Online warto kupić jedynie dla pewności i zaoszczędzenia ~20 minut.
+                        </div>
+                        <a href="https://www.coopculture.it/en/poi/castel-santangelo/" target="_blank" class="btn-buy-ghost">🎟 Kup bilety online</a>
+                    </td>
+                    <td>
+                        <div class="info-text">
+                            Mauzoleum Hadriana przerobione na twierdzę papieską. Taras widokowy z jednym z najlepszych panoramicznych widoków na Rzym.<br><br>
+                            🎯 <strong>Najlepsza pora:</strong> <span class="time-badge">Zachód słońca</span> – widok z tarasów robi piorunujące wrażenie.
+                        </div>
+                    </td>
+                </tr>
+
+                <!-- ── BAZYLIKA ── -->
+                <tr>
+                    <td class="photos-td">
+                        <div class="photos-stack">
+                            <img src="img/stpeter.jpg"  class="photo-thumb" alt="Bazylika św. Piotra" onclick="openLightbox(this.src)">
+                            <img src="img/stpeter2.jpg" class="photo-thumb" alt="Plac Świętego Piotra" onclick="openLightbox(this.src)">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="attr-name">Bazylika św. Piotra</div>
+                        <div class="attr-loc">📍 Watykan, Plac św. Piotra</div>
+                        <span class="price">Wejście bezpłatne &nbsp;·&nbsp; Kopuła 8 EUR</span>
+                        <div class="ticket-type darmowe">✅ WEJŚCIE BEZPŁATNE</div>
+                        <div class="info-text">
+                            Mimo braku biletu – jedna duża kolejka do kontroli bezpieczeństwa. Nie ominiesz jej pieniędzmi. Wejdź wcześnie rano.
+                        </div>
+                        <a href="https://www.vatican.va/various/basiliche/san_pietro/index_en.htm" target="_blank" class="btn-buy-ghost">ℹ Info &amp; kopuła</a>
+                    </td>
+                    <td>
+                        <div class="info-text">
+                            Największa bazylika świata – Pieta Michała Anioła, baldachim Berniniego, złocone wnętrze. Kopuła (537 schodów) daje widok na cały Watykan.<br><br>
+                            🎯 <strong>Najlepsza pora:</strong> <span class="time-badge">7:00–8:00</span>. O 11:00 kolejka przecina cały plac.
+                        </div>
+                    </td>
+                </tr>
+
+                <!-- ── TREVI ── -->
+                <tr>
+                    <td class="photos-td">
+                        <div class="photos-stack">
+                            <img src="img/trevi.jpg"  class="photo-thumb" alt="Fontanna Trevi" onclick="openLightbox(this.src)">
+                            <img src="img/trevi2.jpg" class="photo-thumb" alt="Piazza Navona"  onclick="openLightbox(this.src)">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="attr-name">Fontanna Trevi, Piazza Navona, Campo de' Fiori</div>
+                        <div class="attr-loc">📍 Centrum, ulice i place</div>
+                        <span class="price">0 EUR</span>
+                        <div class="ticket-type darmowe">✅ DARMOWE PLACE</div>
+                        <div class="info-text">
+                            Przy Trevi obowiązuje strefa płatnego wstępu w godzinach szczytu (1,50 EUR). Place dostępne całą dobę.
+                        </div>
+                    </td>
+                    <td>
+                        <div class="info-text">
+                            Barokowy klimat Rzymu, fontanny, lody i aperol do późna w nocy.<br><br>
+                            🎯 <strong>Trevi bez tłoku:</strong> <span class="time-badge">7:30 rano</span> lub <span class="time-badge">po 22:00</span> – fontanna oświetlona wygląda magicznie.
+                        </div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+
+    <!-- ══ OKOLICE ══ -->
+    <h2 class="section-title">Okolice Rzymu &nbsp;<span style="font-size:1.2rem;color:var(--muted);">pociąg / metro</span></h2>
+
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th style="width:200px;">Zdjęcia</th>
+                    <th style="width:34%;">Miejsce &amp; Transport</th>
+                    <th>Co zobaczyć?</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <!-- ── OSTIA ── -->
+                <tr>
+                    <td class="photos-td">
+                        <div class="photos-stack">
+                            <img src="img/ostia.jpg"  class="photo-thumb" alt="Ostia Antica" onclick="openLightbox(this.src)">
+                            <img src="img/ostia2.jpg" class="photo-thumb" alt="Ostia mozaiki" onclick="openLightbox(this.src)">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="attr-name">Ostia Antica</div>
+                        <div class="attr-loc">📍 ~30 min z Porta San Paolo (Metro B)</div>
+                        <span class="price">~12 EUR</span>
+                        <div class="ticket-type w-kasie">🎫 SPOKOJNIE W KASIE</div>
+                        <div class="info-text">
+                            <strong>Dojazd:</strong> Metro B → st. Piramide, potem pociąg Roma–Lido (zwykły bilet miejski 1,50 EUR). Brak tłumów przy kasach.
+                        </div>
+                        <a href="https://www.coopculture.it/en/poi/ostia-antica/" target="_blank" class="btn-buy-ghost">🎟 Kup bilety online</a>
+                    </td>
+                    <td>
+                        <div class="info-text">
+                            Antyczne miasto portowe z mozaikami, termami i teatrem – jak Pompeje, ale bez tłumów. Plan min. pół dnia.<br><br>
+                            <strong>Bonus:</strong> 3 przystanki dalej – plaża <strong>Lido di Ostia</strong>. Można połączyć w jeden dzień.
+                        </div>
+                    </td>
+                </tr>
+
+                <!-- ── TIVOLI ── -->
+                <tr>
+                    <td class="photos-td">
+                        <div class="photos-stack">
+                            <img src="img/tivoli.jpg"  class="photo-thumb" alt="Villa d'Este" onclick="openLightbox(this.src)">
+                            <img src="img/tivoli2.jpg" class="photo-thumb" alt="Tivoli fontanny" onclick="openLightbox(this.src)">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="attr-name">Tivoli – Villa d'Este</div>
+                        <div class="attr-loc">📍 ~45–60 min z Roma Termini</div>
+                        <span class="price">~15 EUR + ~5 EUR (pociąg)</span>
+                        <div class="ticket-type na-telefonie">👉 NA MAJÓWKĘ – ONLINE</div>
+                        <div class="info-text">
+                            <strong>Dojazd:</strong> Trenitalia ze stacji Termini lub Tiburtina. Na spokojne dni kasa daje radę. Na Majówkę – kup online.
+                        </div>
+                        <a href="https://www.coopculture.it/en/poi/villa-deste/" target="_blank" class="btn-buy-ghost">🎟 Kup bilety online</a>
+                    </td>
+                    <td>
+                        <div class="info-text">
+                            Strome tarasowe ogrody renesansowe z setkami fontann – obiekt UNESCO. Jeden z najpiękniejszych ogrodów Europy.<br><br>
+                            <strong>Opcja:</strong> W Tivoli jest też <strong>Villa Adriana</strong> (ruiny rezydencji cesarza Hadriana) – bilet ~10 EUR, warto połączyć.
+                        </div>
+                    </td>
+                </tr>
+
+                <!-- ── CASTEL GANDOLFO ── -->
+                <tr>
+                    <td class="photos-td">
+                        <div class="photos-stack">
+                            <img src="img/gandolfo.jpg"  class="photo-thumb" alt="Castel Gandolfo" onclick="openLightbox(this.src)">
+                            <img src="img/gandolfo2.jpg" class="photo-thumb" alt="Jezioro Albano"   onclick="openLightbox(this.src)">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="attr-name">Castel Gandolfo</div>
+                        <div class="attr-loc">📍 ~40 min z Roma Termini</div>
+                        <span class="price">~12 EUR + ~4 EUR (pociąg)</span>
+                        <div class="ticket-type na-telefonie">👉 REZERWUJ ONLINE</div>
+                        <div class="info-text">
+                            <strong>Dojazd:</strong> Trenitalia. Bilety przez Muzeum Watykańskie – rezerwacja online, bo miejsca mogą się skończyć.
+                        </div>
+                        <a href="https://www.museivaticani.va/content/museivaticani/en/shop/acquista-biglietti.html" target="_blank" class="btn-buy-ghost">🎟 Kup bilety online</a>
+                    </td>
+                    <td>
+                        <div class="info-text">
+                            Letnia rezydencja papieży nad kraterowym jeziorem Albano otoczonym lasami. Przepiękne widoki i spokój – kompletne oderwanie od zgiełku Rzymu.<br><br>
+                            Świetna opcja na regenerację między intensywnymi dniami zwiedzania.
+                        </div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+</div><!-- /container -->
+
+<!-- ─────────── LIGHTBOX JS ─────────── -->
+<script>
+    function openLightbox(src) {
+        document.getElementById('lb-img').src = src;
+        document.getElementById('lightbox').classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+        document.getElementById('lightbox').classList.remove('open');
+        document.body.style.overflow = '';
+    }
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+</script>
+
+</body>
+</html>
