@@ -30,7 +30,7 @@
         .top-section {
             max-width: 860px;
             margin: 0 auto;
-            padding: 3rem 2rem 0;
+            padding: 1.5rem 2rem 0;
         }
 
         .section-label {
@@ -145,7 +145,7 @@
         .weather-section {
             max-width: 860px;
             margin: 0 auto;
-            padding: 2rem 2rem 0;
+            padding: 1.5rem 2rem 0;
             text-align: center;
         }
 
@@ -187,7 +187,7 @@
         /* ─────────────── DIVIDER ─────────────── */
         .divider {
             max-width: 860px;
-            margin: 2.5rem auto 0;
+            margin: 1.5rem auto 0;
             border: none;
             border-top: 1px solid var(--border);
         }
@@ -202,7 +202,7 @@
         .section-title {
             font-family: 'Playfair Display', serif;
             font-size: 2rem;
-            margin: 3rem 0 1.5rem;
+            margin: 1.5rem 0 1rem;
             border-bottom: 2px solid var(--accent);
             display: inline-block;
             padding-bottom: 0.4rem;
@@ -214,7 +214,7 @@
             border: 1px solid var(--border);
             box-shadow: var(--shadow);
             overflow-x: auto;
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
         }
 
         table {
@@ -231,6 +231,7 @@
             color: var(--accent);
             background: rgba(0,0,0,0.25);
             padding: 1rem 1.4rem;
+            text-align: center;
         }
 
         td {
@@ -506,10 +507,37 @@
 
 <hr class="divider">
 
+<!-- ─────────── HOTELE ─────────── -->
+<div class="top-section">
+    <div class="section-label">Twoje hotele</div>
+    <div class="flights-grid">
+
+        <div class="flight-card" style="text-align: center;">
+            <div class="flight-num" style="margin-bottom: 0.7rem;">🏨 Hotel 1–2 maja</div>
+            <div>
+               <img src="img/hotel1.jpg" style="width: 100%; height: auto; border-radius: 12px; margin-bottom: 1rem; cursor: pointer;" alt="Hotel 1" onclick="openLightbox(this.src)">
+            </div>
+            <a href="https://www.booking.com/hotel/it/tony-39-s-apartment.html" target="_blank" class="btn-buy" style="margin-bottom: 1rem; display: inline-block;">🔗 Booking (Tony's Apt)</a>
+            <div style="font-size: 0.8rem; color: #ef4444;">Do zapłaty na miejscu (CityTax): <strong>100 zł</strong></div>
+        </div>
+
+        <div class="flight-card" style="text-align: center;">
+            <div class="flight-num" style="margin-bottom: 0.7rem;">🏨 Hotel 2–5 maja</div>
+            <div>
+               <img src="img/hotel2.jpg" style="width: 100%; height: auto; border-radius: 12px; margin-bottom: 1rem; cursor: pointer;" alt="Hotel 2" onclick="openLightbox(this.src)">
+            </div>
+            <a href="https://www.booking.com/hotel/it/suite-chiabrera-cinema-e-idromassaggio-roma2.en-us.html" target="_blank" class="btn-buy" style="margin-bottom: 1rem; display: inline-block;">🔗 Booking (Suite Chiabrera)</a>
+            <div style="font-size: 0.8rem; color: #ef4444;">Do zapłaty na miejscu (CityTax): <strong>305 zł</strong></div>
+        </div>
+
+    </div>
+</div>
+
+<hr class="divider">
+
 <!-- ─────────── POGODA ─────────── -->
 <div class="weather-section">
     <div class="section-label">Prognoza pogody</div>
-    <div class="weather-city">Rzym, Włochy &nbsp;·&nbsp; 1–5 maja 2026</div>
     <div class="weather-strip">
         <div class="w-day">
             <div class="w-date">Czw 1.05</div>
@@ -552,7 +580,7 @@
 <div class="container">
 
     <!-- ══ CENTRUM RZYMU ══ -->
-    <h2 class="section-title">Centrum Rzymu</h2>
+    <div style="text-align: center;"><h2 class="section-title">Centrum Rzymu</h2></div>
 
     <div class="table-wrapper">
         <table>
@@ -754,7 +782,7 @@
 
 
     <!-- ══ OKOLICE ══ -->
-    <h2 class="section-title">Okolice Rzymu &nbsp;<span style="font-size:1.2rem;color:var(--muted);">pociąg / metro</span></h2>
+    <div style="text-align: center;"><h2 class="section-title">Okolice Rzymu &nbsp;<span style="font-size:1.2rem;color:var(--muted);">pociąg / metro</span></h2></div>
 
     <div class="table-wrapper">
         <table>
@@ -847,6 +875,47 @@
 
             </tbody>
         </table>
+    </div>
+
+    <!-- ══ KOSZTY ══ -->
+    <div style="text-align: center;"><h2 class="section-title">Rozliczenie kosztów</h2></div>
+    
+    <div class="table-wrapper" style="max-width: 650px; margin: 0 auto 3rem;">
+        <table style="min-width: auto; text-align: center;">
+            <thead>
+                <tr>
+                    <th style="padding: 1rem; width: 40%;">Kategoria</th>
+                    <th style="padding: 1rem; width: 30%;">Kwota</th>
+                    <th style="padding: 1rem; width: 30%;">Kto zapłacił</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="padding: 1rem;">✈️ Loty</td>
+                    <td style="padding: 1rem; font-weight: 700;">1752 zł</td>
+                    <td style="padding: 1rem; color: #94a3b8;">Kamil</td>
+                </tr>
+                <tr>
+                    <td style="padding: 1rem;">🏨 Hotel 1</td>
+                    <td style="padding: 1rem; font-weight: 700;">2127 zł</td>
+                    <td style="padding: 1rem; color: #94a3b8;">Kamil</td>
+                </tr>
+                <tr>
+                    <td style="padding: 1rem;">🏨 Hotel 2</td>
+                    <td style="padding: 1rem; font-weight: 700;">431 zł</td>
+                    <td style="padding: 1rem; color: #94a3b8;">Adrian</td>
+                </tr>
+                <tr style="background: rgba(255,255,255,0.05); border-top: 1px solid var(--border);">
+                    <td style="padding: 1rem;"><strong>WYDATKI RAZEM</strong></td>
+                    <td style="padding: 1rem; font-weight: 800; font-size: 1.1rem; color: var(--accent);">4310 zł</td>
+                    <td style="padding: 1rem; color: var(--muted);">(2155 zł / os.)</td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="padding: 1.5rem; text-align: center; background: rgba(0,0,0,0.2);">
+            <div style="font-size: 0.9rem; color: var(--muted); margin-bottom: 0.5rem;">Kamil wypłacił łącznie 3879 zł, a Adrian wypłacił 431 zł. Do równego podziału (po 2155 zł):</div>
+            <div style="font-size: 1.25rem; color: #10b981; font-weight: 800;">Adrian oddaje Kamilowi: <span style="font-size: 1.5rem; margin-left: 0.5rem;">1724 zł</span></div>
+        </div>
     </div>
 
 </div><!-- /container -->
