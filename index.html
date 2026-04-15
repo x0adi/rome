@@ -451,6 +451,15 @@
     <img id="lb-img" src="" alt="">
 </div>
 
+<!-- ─────────── ODLICZANIE ─────────── -->
+<div class="top-section" style="padding-bottom: 0;">
+    <div class="flight-card" style="text-align: center; border-color: rgba(234, 179, 8, 0.4); box-shadow: 0 0 20px rgba(234, 179, 8, 0.1);">
+        <div class="section-label" style="margin-bottom: 0.5rem; color: var(--accent);">Odliczanie do wylotu</div>
+        <div id="countdown-timer" style="font-family: 'Outfit', sans-serif; font-size: 2.2rem; font-weight: 800; color: #fff; letter-spacing: 2px;">--d --h --m --s</div>
+        <div style="font-size: 0.8rem; color: var(--muted); margin-top: 0.5rem;">Czw, 1 maja 2026, 21:30</div>
+    </div>
+</div>
+
 <!-- ─────────── LOTY ─────────── -->
 <div class="top-section">
     <div class="section-label">Twoje loty</div>
@@ -932,6 +941,30 @@
         document.body.style.overflow = '';
     }
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+    // ─────────── ODLICZANIE JS ───────────
+    const countdownTarget = new Date('May 1, 2026 21:30:00').getTime();
+    
+    function updateCountdown() {
+        const now = new Date().getTime();
+        const distance = countdownTarget - now;
+        
+        if (distance < 0) {
+            document.getElementById("countdown-timer").innerHTML = "Czas na wylot! ✈️";
+            return;
+        }
+        
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        
+        document.getElementById("countdown-timer").innerHTML = 
+            days + "d " + hours + "h " + minutes + "m " + seconds + "s";
+    }
+    
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
 </script>
 
 </body>
